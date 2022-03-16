@@ -1,36 +1,23 @@
 package main
 
-import (
-	"fmt"
-	"net/http"
-
-	transportHTTP "github.com/QQuinn03/go-rest-api-course/internal/transport/http"
-)
+import "fmt"
 
 // App - the struct which contains things like
 // pointers to database connections
-type App struct{}
+type App struct {
+}
 
-// Run - sets up our application
-func (app *App) Run() error {
-	fmt.Println("Setting Up Our APP")
-
-	handler := transportHTTP.NewHandler()
-	handler.SetupRoutes()
-
-	if err := http.ListenAndServe(":8080", handler.Router); err != nil {
-		fmt.Println("Failed to set up server")
-		return err
-	}
+// Run - is responsible for instantiation and sets up our go application
+func Run() error {
+	fmt.Println("Starting Up Our APP")
 
 	return nil
 }
 
 func main() {
 	fmt.Println("Go REST API Course")
-	app := App{}
-	if err := app.Run(); err != nil {
-		fmt.Println("Error starting up our REST API")
+	if err := Run(); err != nil {
 		fmt.Println(err)
 	}
+
 }
