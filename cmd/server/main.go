@@ -39,6 +39,7 @@ func Run() error {
 	)*/
 
 	httpHandler := transportHttp.NewHandler(cmtService)
+
 	if err := httpHandler.Serve(); err != nil {
 		return err
 	}
@@ -52,6 +53,7 @@ func Run() error {
 	}*/
 
 	return nil
+
 }
 
 func main() {
