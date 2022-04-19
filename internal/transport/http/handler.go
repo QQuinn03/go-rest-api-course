@@ -13,7 +13,8 @@ import (
 )
 
 type Handler struct {
-	Router  *mux.Router
+	Router *mux.Router
+	//Router  http.ServeMux
 	Service CommentService
 
 	Server *http.Server
