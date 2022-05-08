@@ -1,5 +1,6 @@
 package comment
 
+//Persistence Layer responsibility is to provide an interface for accessing the database
 import (
 	"context"
 	"errors"

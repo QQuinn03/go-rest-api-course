@@ -46,14 +46,14 @@ func NewHandler(service CommentService) *Handler {
 
 }
 func (h *Handler) mapRoute() {
-	h.Router.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "hello world lala")
+	h.Router.HandleFunc("/alive", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "I am alive what about rest api url")
 	})
 
-	h.Router.HandleFunc("api/v1/comment/{id}", h.GetComment).Methods("GET")
-	h.Router.HandleFunc("api/v1/comment/", JWTAuth(h.PostComment)).Methods("POST")
-	h.Router.HandleFunc("api/v1/comment/{id}", JWTAuth(h.DeleteComment)).Methods("Delete")
-	h.Router.HandleFunc("api/v1/comment/{id}", JWTAuth(h.UpdateComment)).Methods("PUT")
+	h.Router.HandleFunc("/api/v1/comment/{id}", h.GetComment).Methods("GET")
+	h.Router.HandleFunc("/api/v1/comment", JWTAuth(h.PostComment)).Methods("POST")
+	h.Router.HandleFunc("/api/v1/comment/{id}", JWTAuth(h.DeleteComment)).Methods("DELETE")
+	h.Router.HandleFunc("/api/v1/comment/{id}", JWTAuth(h.UpdateComment)).Methods("PUT")
 }
 
 /* listen and serve starts a http server and return error */

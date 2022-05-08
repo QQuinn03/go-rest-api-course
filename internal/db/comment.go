@@ -30,7 +30,7 @@ func (d *Database) GetComment(
 	uuid string,
 ) (comment.Comment, error) {
 	var cmtRow CommentRow
-	_, err := d.Client.ExecContext(ctx, "SELECT pg_sleep(16)")
+	_, err := d.Client.ExecContext(ctx, "SELECT pg_sleep(3)")
 	if err != nil {
 		return comment.Comment{}, err
 	}

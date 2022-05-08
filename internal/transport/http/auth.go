@@ -2,7 +2,6 @@ package http
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -14,12 +13,13 @@ func JWTAuth(
 ) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		authHeader := r.Header["Authorization"]
+		//fmt.Println(authHeader)
 		if authHeader == nil {
 			http.Error(w, "not authorized", http.StatusUnauthorized)
 			return
 		}
 		//Bearer: token-string
-		fmt.Println(authHeader[0])
+		//fmt.Println("this", len(authHeader))
 		authHeaderParts := strings.Split(authHeader[0], " ")
 		if len(authHeaderParts) != 2 || strings.ToLower(authHeaderParts[0]) != "bearer" {
 			http.Error(w, "not authorized", http.StatusUnauthorized)
@@ -49,3 +49,12 @@ func validateToken(accessToken string) bool {
 	}
 	return token.Valid
 }
+
+/*curl --location --request POST 'http://localhost:8080/api/v1/comment' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.gKF3xmqVhxwnbKxDdBby1iCUXsKEsMc9UUYel-tk3Do6gOpthLdggBvTuaCTTvu__9d9S3uESxtl3QSEotRlzA'
+--data-raw '{
+   "slug": "hello",
+   "body": "body1",
+   "author": "me"
+}'*/
