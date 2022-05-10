@@ -10,8 +10,8 @@ import (
 
 // App - the struct which contains things like
 // pointers to database connections
-type App struct {
-}
+/*type App struct {
+}*/
 
 // Run - is responsible for instantiation and sets up our go application
 func Run() error {
@@ -28,7 +28,7 @@ func Run() error {
 		return err
 	}
 
-	cmtService := comment.NewService((db))
+	cmtService := comment.NewService((db)) //return service struct{store}
 	/*cmtService.PostComment(context.Background(),
 		comment.Comment{
 			ID:     "71c5d074-b6cf-11ec-b909-0242ac120002",

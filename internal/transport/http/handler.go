@@ -50,7 +50,7 @@ func (h *Handler) mapRoute() {
 		fmt.Fprintf(w, "I am alive what about rest api url")
 	})
 
-	h.Router.HandleFunc("/api/v1/comment/{id}", h.GetComment).Methods("GET")
+	h.Router.HandleFunc("/api/v1/comment/{id}", h.getComment).Methods("GET")
 	h.Router.HandleFunc("/api/v1/comment", JWTAuth(h.PostComment)).Methods("POST")
 	h.Router.HandleFunc("/api/v1/comment/{id}", JWTAuth(h.DeleteComment)).Methods("DELETE")
 	h.Router.HandleFunc("/api/v1/comment/{id}", JWTAuth(h.UpdateComment)).Methods("PUT")

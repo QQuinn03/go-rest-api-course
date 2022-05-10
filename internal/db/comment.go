@@ -25,7 +25,7 @@ func convertCommentRowToComment(c CommentRow) comment.Comment {
 	}
 }
 
-func (d *Database) GetComment(
+func (d *Database) getComment(
 	ctx context.Context,
 	uuid string,
 ) (comment.Comment, error) {

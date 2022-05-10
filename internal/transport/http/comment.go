@@ -13,7 +13,7 @@ import (
 
 type CommentService interface {
 	PostComment(context.Context, comment.Comment) (comment.Comment, error)
-	GetComment(ctx context.Context, ID string) (comment.Comment, error)
+	getComment(ctx context.Context, ID string) (comment.Comment, error)
 	DeleteComment(ctx context.Context, ID string) error
 	UpdateComment(ctx context.Context, ID string, newCmt comment.Comment) (comment.Comment, error)
 }
@@ -63,14 +63,14 @@ func (h *Handler) PostComment(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
-func (h *Handler) GetComment(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) getComment(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
 	if id == "" {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	cmt, err := h.Service.GetComment(r.Context(), id)
+	cmt, err := h.Service.getComment(r.Context(), id)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)

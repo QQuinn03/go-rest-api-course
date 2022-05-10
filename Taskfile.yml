@@ -32,4 +32,4 @@ tasks:
   acceptance-tests:
     cmds:
       - docker-compose up -d --build
-      - go test -tags=e2e -v ./...s     
+      - go test -tags=e2e -v ./...  
