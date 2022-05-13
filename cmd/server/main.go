@@ -1,17 +1,13 @@
 package main
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/QQuinn03/go-rest-api-course/internal/comment"
 	"github.com/QQuinn03/go-rest-api-course/internal/db"
 	transportHttp "github.com/QQuinn03/go-rest-api-course/internal/transport/http"
 )
-
-// App - the struct which contains things like
-// pointers to database connections
-/*type App struct {
-}*/
 
 // Run - is responsible for instantiation and sets up our go application
 func Run() error {
@@ -29,28 +25,14 @@ func Run() error {
 	}
 
 	cmtService := comment.NewService((db)) //return service struct{store}
-	/*cmtService.PostComment(context.Background(),
-		comment.Comment{
-			ID:     "71c5d074-b6cf-11ec-b909-0242ac120002",
-			Slug:   "TEST if this works",
-			Author: "QQ",
-			Body:   "hi!",
-		},
-	)*/
+	cmtService.GettComment(context.Background(),
+		"71c5d074-b6cf-11ec-b909-0242ac120002")
 
 	httpHandler := transportHttp.NewHandler(cmtService)
 
 	if err := httpHandler.Serve(); err != nil {
 		return err
 	}
-
-	/*fmt.Println(cmtService.GetComment(context.Background(),
-		"71c5d074-b6cf-11ec-b909-0242ac120002",
-	))*/
-
-	/*if err := db.Ping(context.Background()); err != nil {
-		return err
-	}*/
 
 	return nil
 

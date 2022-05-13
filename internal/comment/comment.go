@@ -37,18 +37,21 @@ type Comment struct {
 }
 
 // this interface defines all methods that our service needs in order to operate
+//this interface will be implemented by repository layer(sql/datavase layer)
 type Store interface {
-	getComment(context.Context, string) (Comment, error)
+	GettComment(context.Context, string) (Comment, error)
+	PostComment(context.Context, Comment) (Comment, error)
 	UpdateComment(context.Context, string, Comment) (Comment, error)
 	DeleteComment(context.Context, string) error
-	PostComment(context.Context, Comment) (Comment, error)
 }
 
 //Service layer does not need to know how implemntation details of how comments get retrived from repository layer
-func (s *Service) getComment(ctx context.Context, id string) (Comment, error) {
+//The GetComment outside is not the same as GetComment inside, inside one is calling method GetComment in the interface
+//which will be implemented by mthod GetComment in database layer
+func (s *Service) GettComment(ctx context.Context, id string) (Comment, error) {
 	fmt.Println("retriveing a comment...")
 
-	cmt, err := s.StoreInterface.getComment(ctx, id) //triggrt getComment from database comment
+	cmt, err := s.StoreInterface.GettComment(ctx, id) //triggrt getComment from database comment
 	if err != nil {
 		fmt.Println(err)
 		return Comment{}, ErrFetchingComment
@@ -56,25 +59,34 @@ func (s *Service) getComment(ctx context.Context, id string) (Comment, error) {
 	return cmt, nil
 }
 
-//// UpdateComment - updates a comment by ID with new comment info
-func (s *Service) UpdateComment(ctx context.Context, ID string, UpdateCmt Comment) (Comment, error) {
-	cmt, err := s.StoreInterface.UpdateComment(ctx, ID, UpdateCmt)
+func (s *Service) PostComment(ctx context.Context, cmt Comment) (Comment, error) {
+	fmt.Println("creating a comment...")
+	cmt, err := s.StoreInterface.PostComment(ctx, cmt) //triggrt getComment from database comment
 	if err != nil {
-		fmt.Println("error updating comment")
+		fmt.Println(err)
 		return Comment{}, err
 	}
 	return cmt, nil
-}
-
-func (s *Service) DeleteComment(ctx context.Context, ID string) error {
-	return s.StoreInterface.DeleteComment(ctx, ID)
 
 }
 
-func (s *Service) PostComment(ctx context.Context, cmt Comment) (Comment, error) {
-	insertedCmt, err := s.StoreInterface.PostComment(ctx, cmt)
+func (s *Service) DeleteComment(ctx context.Context, id string) error {
+	fmt.Println("deleting a comment...")
+	err := s.StoreInterface.DeleteComment(ctx, id)
 	if err != nil {
+		fmt.Println("failing to delete the comment", err)
+		return err
+	}
+	return nil
+}
+
+func (s *Service) UpdateComment(ctx context.Context, id string, cmt Comment) (Comment, error) {
+	fmt.Println("Updating comment")
+	updatedCmt, err := s.StoreInterface.UpdateComment(ctx, id, cmt)
+	if err != nil {
+		fmt.Println("failing to update the comment", err)
 		return Comment{}, err
 	}
-	return insertedCmt, nil
+	return updatedCmt, nil
+
 }
